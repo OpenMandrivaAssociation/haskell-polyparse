@@ -2,7 +2,7 @@
 
 Name: haskell-%{module}
 Version: 1.3
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A variety of alternative parser combinator libraries
 Group: Development/Other
 License: LGPL
