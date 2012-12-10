@@ -1,22 +1,25 @@
-%define module  polyparse
+%global debug_package %{nil}
+#% define _cabal_setup Setup.lhs
+#% define _no_haddock 1
+%define module polyparse
+Name:           haskell-%{module}
+Version:        1.8
+Release:        1
+Summary:        A variety of alternative parser combinator libraries
+Group:          Development/Other
+License:        LGPL
+URL:            http://hackage.haskell.org/package/%{module}
+Source0:        http://hackage.haskell.org/packages/archive/%{module}/%{version}/%{module}-%{version}.tar.gz
 
-Name: haskell-%{module}
-Version: 1.3
-Release: %mkrel 2
-Summary: A variety of alternative parser combinator libraries
-Group: Development/Other
-License: LGPL
-Url: http://www.cs.york.ac.uk/fp/polyparse/
-Source: http://hackage.haskell.org/packages/archive/%{module}/%{version}/%{module}-%{version}.tar.gz
-BuildRoot: %_tmppath/%name-%version-%release-root
-BuildRequires: ghc
-BuildRequires: haddock
-BuildRequires: haskell-macros
+BuildRequires:  ghc, ghc-devel, haskell-macros, haddock
+buildrequires:  haskell(text)
+Requires(pre):  ghc
+requires(pre):  haskell(text)
 
 %description
 A variety of alternative parser combinator libraries, including the original
-HuttonMeijer set. The Poly sets have features like good error reporting,
-arbitrary token type, running state, lazy parsing, and so on. Finally,
+HuttonMeijer set.  The Poly sets have features like good error reporting,
+arbitrary token type, running state, lazy parsing, and so on.  Finally,
 Text.Parse is a proposed replacement for the standard Read class, for better
 deserialisation of Haskell values from Strings.
 
@@ -26,27 +29,20 @@ deserialisation of Haskell values from Strings.
 %build
 %_cabal_build
 
-%_cabal_genscripts
+%install
+%_cabal_install
+%_cabal_rpm_gen_deps
+%_cabal_scriptlets
 
 %check
 %_cabal_check
 
-%install
-%_cabal_install
-
-rm -fr %{buildroot}/%_datadir/*/doc/
-
-%_cabal_rpm_gen_deps
-
-%_cabal_scriptlets
-
 %files
-%defattr(-,root,root)
-%_docdir/%{module}-%{version}
-%_libdir/*
-%_cabal_rpm_files
+%defattr(-,root,root,-)
+%{_docdir}/%{module}-%{version}
+%{_libdir}/%{module}-%{version}
+%_cabal_rpm_deps_dir
+%_cabal_haddoc_files
 
-%clean
-rm -fr %buildroot
 
 
